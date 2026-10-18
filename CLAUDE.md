@@ -152,4 +152,4 @@ The app is **Tabbly** (App Store: "Tabbly: Split the Bill"); it was "Split It" u
 
 Expo Go for development, EAS Build + TestFlight for production. Default to the Expo managed workflow — don't introduce third-party native modules without a clear reason (see Commands above for why).
 
-`EXPO_PUBLIC_*` vars are inlined into the bundle at build time, so `EXPO_PUBLIC_SCAN_URL` must be set as an EAS environment variable for production builds — `.env.local` is not uploaded. The URL is public by nature; the protection is the server's limits, not secrecy. Builds 14 and 15 predate the server and still carry an Anthropic key, which should be deleted in the Claude Console once a server-backed build is out.
+`EXPO_PUBLIC_*` vars are inlined into the bundle at build time, so `EXPO_PUBLIC_SCAN_URL` must be set as an EAS environment variable for production builds — `.env.local` is not uploaded. The URL is public by nature; the protection is the server's limits, not secrecy. Builds 14 and 15 predated the server and carried an Anthropic key; that key was deleted in the Claude Console in October 2026, so those builds can't scan.
