@@ -1,5 +1,6 @@
 // The receipt look's building blocks. Every screen is made of these, so a
 // change to how paper, rules, stamps or buttons look happens here once.
+import { Feather } from '@expo/vector-icons';
 import React from 'react';
 import {
   Pressable,
@@ -86,7 +87,11 @@ export function Leader({
   );
 }
 
-/** A rubber stamp, slightly crooked: "MATCHES RECEIPT ✓", "SAVED ✓". */
+/**
+ * A rubber stamp, slightly crooked: "MATCHES RECEIPT ✓", "SAVED ✓". A trailing
+ * "✓" in the label is drawn as an icon — IBM Plex Mono has no check mark, and
+ * iOS's fallback glyph reads as a thin "√".
+ */
 export function Stamp({
   label,
   rotate = -4,
@@ -100,16 +105,34 @@ export function Stamp({
   size?: number;
   style?: StyleProp<ViewStyle>;
 }) {
+  const check = label.endsWith('✓');
+  const text = check ? label.slice(0, -1).trimEnd() : label;
   return (
     <View
+      accessible
+      accessibilityLabel={text}
       style={[
         styles.stamp,
         { borderColor: color, transform: [{ rotate: `${rotate}deg` }] },
         style,
       ]}
     >
-      <Text style={[styles.stampText, { color, fontSize: size }]}>{label}</Text>
+      <Text style={[styles.stampText, { color, fontSize: size }]}>{text}</Text>
+      {check && <CheckMark size={size + 2} color={color} />}
     </View>
+  );
+}
+
+/** A bold check mark in place of "✓", which the app's fonts don't have. */
+export function CheckMark({ size = 14, color = colors.stamp }: { size?: number; color?: string }) {
+  return (
+    <Feather
+      name="check"
+      size={size}
+      color={color}
+      accessibilityElementsHidden
+      importantForAccessibility="no"
+    />
   );
 }
 
@@ -263,6 +286,9 @@ const styles = StyleSheet.create({
   leaderValue: { color: colors.ink, fontVariant: ['tabular-nums'] },
   stamp: {
     alignSelf: 'flex-start',
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
     borderWidth: 2,
     paddingHorizontal: 8,
     paddingVertical: 4,

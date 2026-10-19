@@ -12,7 +12,7 @@ import {
   View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Column, Leader, NameChip, Paper, PaperButton, Stamp } from '../components/paper';
+import { CheckMark, Column, Leader, NameChip, Paper, PaperButton, Stamp } from '../components/paper';
 import ReceiptPhoto from '../components/ReceiptPhoto';
 import ReceiptView from '../components/ReceiptView';
 import { useBill } from '../context/BillContext';
@@ -583,7 +583,11 @@ function PersonTile({
       </Pressable>
       {on && (
         <View style={styles.badge} pointerEvents="none">
-          <Text style={styles.badgeText}>{perUnit ? `×${count}` : '✓'}</Text>
+          {perUnit ? (
+            <Text style={styles.badgeText}>{`×${count}`}</Text>
+          ) : (
+            <CheckMark size={13} />
+          )}
         </View>
       )}
       {on && perUnit && (

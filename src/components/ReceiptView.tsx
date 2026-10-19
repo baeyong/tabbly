@@ -3,6 +3,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { colors, fonts, text } from '../theme';
 import { Person } from '../types/bill';
 import { ReceiptRow, describeRow, rowWarning } from '../utils/receiptRows';
+import { Feather } from '@expo/vector-icons';
 import { DashedRule, Leader, Paper, Stamp } from './paper';
 
 /** A line in the totals block. `printed` adds the receipt's own figure under it. */
@@ -94,7 +95,12 @@ export default function ReceiptView({
               />
               {t.printed && (
                 <Text style={[styles.printed, { color: matches ? colors.stamp : colors.danger }]}>
-                  {t.printed.label} {t.printed.value.toFixed(2)} {matches ? '✓' : '✗'}
+                  {t.printed.label} {t.printed.value.toFixed(2)}{' '}
+                  <Feather
+                    name={matches ? 'check' : 'x'}
+                    size={13}
+                    accessibilityLabel={matches ? 'matches' : "doesn't match"}
+                  />
                 </Text>
               )}
             </View>
